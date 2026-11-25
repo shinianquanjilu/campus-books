@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+data/
+*.db
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+.venv/
+venv/
+mysql-data/
+mysql-log/
+.mysql/
+.idea/
+.vscode/
+Snipaste_*.png
+docs/*.docx
