@@ -46,6 +46,20 @@ CREATE TABLE IF NOT EXISTS `books` (
   CONSTRAINT `fk_book_seller` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='图书表';
 
+-- 收藏表
+CREATE TABLE IF NOT EXISTS `favorites` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` INT NOT NULL COMMENT '收藏用户 id',
+  `book_id` INT NOT NULL COMMENT '被收藏图书 id',
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '收藏时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_favorite_user_book` (`user_id`, `book_id`),
+  KEY `idx_favorite_user` (`user_id`),
+  KEY `idx_favorite_book` (`book_id`),
+  CONSTRAINT `fk_favorite_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_favorite_book` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户收藏表';
+
 -- 订单表
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键',

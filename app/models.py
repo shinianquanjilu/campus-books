@@ -67,6 +67,24 @@ class Book(db.Model):
         return '%.1f 折' % ratio
 
 
+class Favorite(db.Model):
+    """用户对图书的收藏记录。"""
+
+    __tablename__ = 'favorites'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False, index=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+    user = db.relationship('User', backref=db.backref('favorites', lazy='dynamic'))
+    book = db.relationship('Book', backref=db.backref('favorites', lazy='dynamic'))
+
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'book_id', name='uk_favorite_user_book'),
+    )
+
+
 class Order(db.Model):
     __tablename__ = 'orders'
 
