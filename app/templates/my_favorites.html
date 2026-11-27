@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}我的收藏 · {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="section-head">
+  <h1>我的收藏</h1>
+</div>
+
+{% if books %}
+<div class="book-grid">
+  {% for book in books %}
+  <a class="book-card" href="{{ url_for('books.detail', book_id=book.id) }}">
+    <div class="cover">
+      {% if book.cover %}
+      <img src="{{ url_for('static', filename='uploads/' + book.cover) }}" alt="封面">
+      {% else %}
+      <div class="cover-fallback">{{ book.title[:1] }}</div>
+      {% endif %}
+    </div>
+    <div class="book-body">
+      <h2 class="book-title">{{ book.title }}</h2>
+      <p class="book-meta">{{ book.author or '佚名' }} · {{ book.condition }}</p>
+      <div class="book-price">
+        <span class="price">¥{{ book.price | money }}</span>
+        {% if book.original_price %}<span class="origin">¥{{ book.original_price | money }}</span>{% endif %}
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state big">
+  <p class="muted">还没有收藏任何图书，去书市逛逛吧。</p>
+  <a class="btn" href="{{ url_for('books.index') }}">返回书市</a>
+</div>
+{% endif %}
+{% endblock %}
